@@ -23,7 +23,7 @@
 <body>
   <section id="menu">
     <div class="logo">
-      <img src="tosche.png" alt="" />
+      <img src="../src/img/tosche.png" alt="" />
     </div>
     <div class="items">
       <li class="nav-item mt-3">
@@ -46,7 +46,7 @@
         <a class="menu-text">Pegawai</a>
       </li>
       <div id="manajemen">
-        <div onclick="pindahPage('LihatKaryawan.php')">
+        <div onclick="pindahPage('karyawan.php')">
           <span></span>
           <a>Karyawan</a>
         </div>

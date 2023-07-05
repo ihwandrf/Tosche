@@ -5,17 +5,17 @@ require_once "../Config/Database.php";
 require_once "../Helper/functions.php";
 $conn = getConnection();
 
-
-$conn = getConnection();
+$limit = 5;
 $sql = "SELECT p.kode_produk 'kode_p', p.nama_produk 'nama_p', p.gambar_produk 'gambar_p', p.harga_produk 'harga_p', k.nama_kategori 'kategori_p', p.stok 'stok_p'
 FROM produk p JOIN kategori k
 ON(p.kategori_produk = k.kode_kategori)
-ORDER BY p.stok ASC;";
+ORDER BY p.stok ASC LIMIT $limit;";
 $hasil = $conn->query($sql);
 
 
-$no = 1;
 
+
+$no = 1;
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -31,17 +31,16 @@ $no = 1;
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous" />
   <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="../src/css/style.css" />
+  <link rel="stylesheet" href="../src/css/produk.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.6.15/sweetalert2.min.css">
   <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
-
-  <title>MyLaundry Dashboard</title>
+  <title>Tosche Inventori</title>
 </head>
 
 <body>
   <section id="menu">
     <div class="logo">
-      <img src="tosche.png" alt="" />
+      <img src="../src/img/tosche.png" alt="" />
     </div>
     <div class="items">
       <li class="nav-item mt-3">
@@ -64,7 +63,7 @@ $no = 1;
         <a class="menu-text">Pegawai</a>
       </li>
       <div id="manajemen">
-        <div onclick="pindahPage('karyawan.php')">
+        <div onclick="pindahPage('LihatKaryawan.php')">
           <span></span>
           <a>Karyawan</a>
         </div>
@@ -73,8 +72,16 @@ $no = 1;
           <a>Administrator</a>
         </div>
       </div>
-      <li onclick="pindahPage('transaksi.php')" id="transaksi-li">
+      <li onclick="pindahPage('Transaksi.php')" id="transaksi-li">
         <span class="material-symbols-outlined"> payments </span>
+        <a class="menu-text">Pendapatan</a>
+      </li>
+      <li onclick="pindahPage('Paket.php')">
+        <span class="material-symbols-outlined"> laundry </span>
+        <a class="menu-text">Produk Terjual</a>
+      </li>
+      <li onclick="pindahPage('Customer.php')">
+        <span class="material-symbols-outlined"> person </span>
         <a class="menu-text">Transaksi</a>
       </li>
       <li onclick="pindahPage('BuatLaporan.php')">
@@ -83,8 +90,8 @@ $no = 1;
       </li>
     </div>
     <div id="profilediv" onclick="toggleMenu()">
-      <img src="profil_empty.png" alt="">
-      
+      <img src="../src/img/profil_empty.png" alt="">
+      <span>Thomas Supriadi</span>
     </div>
   </section>
 
@@ -93,7 +100,7 @@ $no = 1;
       <div class="n1">
         <i id="slide-bar" class="fa-solid fa-bars" style="color: #FFFFFF;"></i>
       </div>
-      <!-- <div class="profile">
+      <div class="profile">
         <i class="fa fa-bell"> </i>
         <img src="org1.jpeg" alt="" />
         <span class="material-symbols-outlined" onclick="toggleMenu()">
@@ -103,7 +110,7 @@ $no = 1;
       <div class="sub-menu-wrap" id="subMenu">
         <div class="sub-menu">
           <div class="user-info">
-            <img src="org1.jpeg" alt="" />
+            <img src="../src/img/org1.jpeg" alt="" />
             <h2><?php echo $nama['nama'] ?></h2>
           </div>
           <hr />
@@ -124,96 +131,246 @@ $no = 1;
             <p>Logout</p>
           </a>
         </div>
-      </div> -->
+      </div>
     </div>
 
-    <!-- <h3 class="i-name">Dashboard</h3> -->
+    <div class="transaksi-tambah">
+      <h3 class="i-name">Daftar Produk</h3>
+      <button data-bs-toggle="modal" data-bs-target="#newUserModal" type="button" class="btn btn-outline-primary active aksi-btn tambah-btn aksi-btn">
+        Tambah Produk
+      </button>
+    </div>
 
-  <div class="row sectioninvent">
-    <table width="100%">
-        <thead>
-          <tr>
-            <td>No</td>
-            <td>Gambar</td>
-            <td>Kode</td>
-            <td>Nama</td>
-            <td>Jenis</td>
-            <td>Stok</td>
-            <td>Harga</td>
-            <td>Aksi</td>
-          </tr>
-        </thead>
-        <tbody>
-          <?php foreach ($hasil as $row) { ?>
+    <div class="row sectioninvent board">
+      <table width="100%">
+          <thead>
             <tr>
-              <td><?php echo $no ?></td>
-              <?php $no++; ?>
-              <td><?php echo $row['gambar_p'] ?></td>
-              <td><?php echo $row['kode_p'] ?></td>
-              <td><?php echo $row['nama_p'] ?></td>
-              <td><?php echo $row['kategori_p'] ?></td>
-              <td><?php echo $row['stok_p'] ?></td>
-              <td><?php echo rupiah($row['harga_p']) ?></td>
-              <td>
-                <button type="button" class="btn btn-outline-primary active aksi-btn edit" id="<?= $row['kode_p'] ?>">
-                  Edit
-                </button>
-                <button type="submit" form="" class="btn btn-outline-success active aksi-btn">
-                  Invoice
-                </button>
-                <button type="button" class="btn btn-outline-danger active aksi-btn font-kecil hapus" id="<?= $row['kode_p'] ?>">
-                  Hapus
-                </button>
-              </td>
+              <td>No</td>
+              <td>Nama Produk</td>
+              <td>Kode Produk</td>
+              <td>Gambar</td>
+              <td>Jenis Produk</td>
+              <td>Stok Produk</td>
+              <td>Harga Produk</td>
+              <td>Aksi</td>
             </tr>
-          <?php } ?>
-        </tbody>
-        <tbody>
-          <tr>
-            <td class="people"></td>
-          </tr>
-        </tbody>
-      </table>
-  </div>
+          </thead>
+          <tbody>
+            <?php foreach ($hasil as $row) { ?>
+              <tr>
+                <td><?php echo $no ?></td>
+                <?php $no++; ?>
+                <td><?php echo $row['nama_p'] ?></td>
+                <td><?php echo $row['kode_p'] ?></td>
+                
+                <td><img class="img_produk" src="<?php echo $row['gambar_p'] ?>"></td>
+                <td><?php echo $row['kategori_p'] ?></td>
+                <td><?php echo $row['stok_p'] ?></td>
+                <td><?php echo rupiah($row['harga_p']) ?></td>
+                <td>
+                  <button type="button" class="btn btn-outline-primary active aksi-btn edit" id="<?= $row['kode_p'] ?>">
+                    Edit
+                  </button>
+                  <button type="button" class="btn btn-outline-danger active aksi-btn font-kecil hapus" id="<?= $row['kode_p'] ?>">
+                    Hapus
+                  </button>
+                </td>
+                
+              </tr>
+            <?php } ?>
+          </tbody>
+          <tbody>
+            <tr>
+              <td class="people"></td>
+            </tr>
+          </tbody>
+        </table>
+        <nav aria-label="Page navigation example">
+          <ul class="pagination justify-content-center">
+            <li class="page-item disabled">
+              <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+            </li>
+            <li class="page-item"><a class="page-link" href="#">1</a></li>
+            <li class="page-item"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item">
+              <a class="page-link" href="#">Next</a>
+            </li>
+          </ul>
+        </nav>
+    </div>
     
+    <div class="modal fade" id="newUserModal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-body">
+            <form id="newProductForm" method="post">
+              <div class="row">
+                <div class="col-sm-12">
+                  <div class="form-group">
+                    <label for="">No Produk</label>
+                    <select class="form-select" name="no_order" id="" disabled>
+                      <?php $sqlSelectIdProduk = "SELECT MAX(kode_produk) 'kode_produk' FROM produk;";
+                      $stateSelectIdProduk = $conn->query($sqlSelectIdProduk);
+                      foreach ($stateSelectIdProduk as $row) {
+                      ?>
+                        <option value="<?= $row["kode_produk"] + 1 ?>"><?= $row["kode_produk"] + 1 ?></option>
+                      <?php } ?>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-sm-12">
+                  <div class="form-group">
+                    <label for="">Nama Produk</label>
+                    <input name="nama_p" id="nama_p" type="text" class="form-control" placeholder="Nama Produk">
+                  </div>
+                </div>
+                <div class="col-sm-12">
+                  <div class="form-group">
+                    <label for="">ID - Kategori</label>
+                    <select class="form-select" name="id_kategori" id="id_kategori">
+                      <option value="">- Masukkan Kategori Produk -</option>
+                      <?php $sqlSelectIdKategori = "SELECT CONCAT (k.kode_kategori, '-', k.nama_kategori) 'id_kategori' FROM kategori k;";
+                      $stateSelectIdKategori = $conn->query($sqlSelectIdKategori);
+                      foreach ($stateSelectIdKategori as $row) {
+                      ?>
+                        <option value="<?php echo $row["id_kategori"] ?>"><?php echo $row["id_kategori"] ?> </option> <?php } ?>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-sm-12">
+                  <div class="form-group">
+                    <label for="">Harga (Rp)</label>
+                    <input class="form-control" type="text" name="harga_p" id="harga_p" placeholder="Harga (Rp)">
+                  </div>
+                </div>
+                <div class="col-sm-12">
+                  <div class="form-group">
+                    <label for="">Stok</label>
+                    <input class="form-control" type="text" name="stok_p" id="stok_p" placeholder="Stok Produk">
+                  </div>
+                </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-dark active aksi-btn" data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-success active aksi-btn">Submit</button>
+          </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div id="display-produk"></div>
+
     
     
   </section>
+
   <script>
-    // logout
+    // Modal
     $(document).ready(function() {
-      $("#logout").click(function() {
+
+      $(document).on("click", ".edit", function() {
+        const id = $(this).attr('id');
+
+        $("#display-produk").html("");
+        $.ajax({
+          url: "editProduk.php",
+          type: 'POST',
+          data: {
+            id: id
+          },
+          cache: false,
+          success: function(data) {
+            $("#display-produk").html(data);
+            $("#editProdukModal").modal("show");
+          }
+        })
+
+      })
+
+      $(document).on("click", ".hapus", function() {
+        const id = $(this).attr('id');
+
         Swal.fire({
           title: 'Apakah Anda yakin?',
-          text: "Anda akan keluar dari halaman ini!",
+          text: "Anda tidak akan bisa mengembalikan data ini!",
           icon: 'warning',
           showCancelButton: true,
           confirmButtonColor: '#3085d6',
           cancelButtonColor: '#d33',
-          confirmButtonText: 'Ya, keluar saja!'
+          confirmButtonText: 'Ya, hapus saja!'
         }).then((result) => {
           if (result.isConfirmed) {
             $.ajax({
-              url: "Logout.php",
-              type: "POST",
-              success: function() {
+              url: "deleteProduk.php",
+              type: 'POST',
+              data: {
+                id: id
+              },
+              success: function(data) {
                 Swal.fire(
-                  'Logout berhasil!',
-                  'Anda akan keluar dari halaman karyawan.',
+                  'Data terhapus!',
+                  'Data transaksi telah terhapus.',
                   'success'
                 ).then(() => {
-                  window.location.href = "login.php";
+                  window.location.reload();
                 })
               }
+
             })
           }
         })
       })
+
+      $("#newProductForm").submit(function(e) {
+        e.preventDefault();
+        const nama_produk = $("#nama_p").val();
+        const id_kategori = $("#id_kategori option:selected").val();
+        const harga = $("#harga_p").val();
+        const stok = $("#stok_p").val();
+
+        if (nama_produk == "" || id_kategori == "" || harga == "" || stok == "") {
+          Swal.fire(
+            "Masukan Salah!",
+            "Isian data belum lengkap!",
+            "error"
+          )
+        } else {
+
+          Swal.fire({
+            title: 'Apakah Anda Yakin?',
+            text: "Anda akan menambahkan produk baru?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya, tambahkan!'
+          }).then((result) => {
+            if (result.isConfirmed) {
+              $.ajax({
+                url: 'newProduk.php',
+                type: 'POST',
+                data: $(this).serialize(),
+                cache: false,
+                success: function(data) {
+                  Swal.fire(
+                    "Berhasil!",
+                    "Penambahan transaksi baru berhasil!",
+                    "success"
+                  ).then(() => {
+                    window.location.reload();
+                  })
+                }
+              })
+            }
+          })
+
+        }
+
+      })
     })
 
-
     let sideBar = document.getElementById("menu");
-    let el_html = document.querySelector("html");
     let subMenu = document.getElementById("subMenu");
     let slideBar = document.getElementById("slide-bar");
     let manajemen = document.getElementById("manajemen-li");
@@ -234,6 +391,11 @@ $no = 1;
       $("#manajemen").toggleClass("active2");
     });
 
+    // PINDAH PAGE
+
+    function pindahPage(namaPage) {
+      window.location.href = namaPage;
+    }
 
     $("#slide-bar").click(function() {
       $("#menu").toggleClass("active");
@@ -243,20 +405,14 @@ $no = 1;
       $("#menu").toggleClass("activeWeb");
     });
 
-    function pindahPage(namaPage) {
-      window.location.href = namaPage;
-    }
-
-
-
     // alert("Apakah bisa ");
   </script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.6.15/sweetalert2.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script>
 
   <!-- SWAL -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.6.15/sweetalert2.min.js"></script>
+
 </body>
 
 </html>

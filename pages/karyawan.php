@@ -40,7 +40,7 @@ $no = 1;
 <body>
   <section id="menu">
     <div class="logo">
-      <img src="tosche.png" alt="" />
+      <img src="../src/img/tosche.png" alt="" />
     </div>
     <div class="items">
       <li class="nav-item mt-3">
