@@ -90,7 +90,7 @@ $no = 1;
         <span class="material-symbols-outlined"> contract </span>
         <a class="menu-text">Transaksi</a>
       </li>
-      <li onclick="pindahPage('BuatLaporan.php')">
+      <li onclick="pindahPage('laporan.php')">
         <span class="material-symbols-outlined"> summarize </span>
         <a class="menu-text">Laporan</a>
       </li>

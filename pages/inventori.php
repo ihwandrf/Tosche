@@ -90,6 +90,7 @@ $no = 1;
           <a>Administrator</a>
         </div>
       </div>
+
       <li onclick="pindahPage('transaksi.php')">
         <span class="material-symbols-outlined"> contract </span>
         <a class="menu-text">Transaksi</a>
@@ -293,39 +294,20 @@ $no = 1;
         </div>
       </div>
     </div>
-    <div id="display-product"></div>
+
+    <div id="display-product">
+    </div>
   </section>
 
   <script>
     // Modal
     $(document).ready(function() {
-
-      // $(document).on("click", ".edit", function() {
-      //   const id = $(this).attr('id');
-      //   console.log(id);
-
-      //   $("#display-produk").html("");
-      //   $.ajax({
-      //     url: "editProduk.php",
-      //     type: 'POST',
-      //     data: {
-      //       id: id
-      //     },
-      //     cache: false,
-      //     success: function(data) {
-      //       $("#display-produk").html(data);
-      //       $("#editProdukModal").modal("show");
-      //     }
-      //   })
-
-      // })
-
       $(document).on("click", ".edit", function() {
         const id = $(this).attr('id');
 
         $("#display-product").html("");
         $.ajax({
-          url: "editProduk.php",
+          url: "editProduct.php",
           type: "POST",
           data: {
             id: id

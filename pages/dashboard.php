@@ -36,6 +36,110 @@ $totalProdukTerjualState = $conn->query($totalProdukTerjual);
 $totalProdukTerjualAngka = $totalProdukTerjualState ->fetch();
 $totalProdukTerjualAngka = $totalProdukTerjualAngka['total'];
 
+//Get Produk Terlaris
+$produkpalinglaris = "SELECT t.id_barang, p.nama_produk 'namaproduk' FROM transaksi t JOIN produk p on t.id_barang = p.kode_produk  GROUP BY id_barang ORDER BY SUM(jumlah_barang) DESC limit 1;";
+$produkpalinglarisState = $conn->query($produkpalinglaris);
+$produkpalinglarisHasil = $produkpalinglarisState ->fetch();
+$produkpalinglarisHasil = $produkpalinglarisHasil['namaproduk'];
+
+//CHART
+//TOP 3 PRODUK TERLARIS
+
+//PRODUK 1
+$produkterlaris1 = "SELECT SUM(jumlah_barang) 'total_penjualan' FROM transaksi WHERE id_barang = 1;";
+$hasilprodukterlaris1 = $conn->query($produkterlaris1);
+$hasilprodukterlaris1Hasil = $hasilprodukterlaris1 -> fetch();
+$hasilprodukterlaris1Hasil = $hasilprodukterlaris1Hasil['total_penjualan'];
+
+//PRODUK 2
+$produkterlaris2 = "SELECT SUM(jumlah_barang) 'total_penjualan' FROM transaksi WHERE id_barang = 1;";
+$hasilprodukterlaris2 = $conn->query($produkterlaris2);
+$hasilprodukterlaris2Hasil = $hasilprodukterlaris2 -> fetch();
+$hasilprodukterlaris2Hasil = $hasilprodukterlaris2Hasil['total_penjualan'];
+
+//PRODUK 3
+$produkterlaris3 = "SELECT SUM(jumlah_barang) 'total_penjualan' FROM transaksi WHERE id_barang = 3;";
+$hasilprodukterlaris3 = $conn->query($produkterlaris3);
+$hasilprodukterlaris3Hasil = $hasilprodukterlaris3 -> fetch();
+$hasilprodukterlaris3Hasil = $hasilprodukterlaris3Hasil['total_penjualan'];
+
+//KATEGORI
+
+//KAT1
+$kat1 = "SELECT k.kode_kategori, k.nama_kategori, SUM(jumlah_barang) 'totalpenjualan' FROM transaksi t JOIN produk p ON t.id_barang = p.kode_produk JOIN kategori k ON p.kategori_produk = k.kode_kategori WHERE k.kode_kategori = 1;";
+$kat1state = $conn->query($kat1);
+$kat1hasil = $kat1state -> fetch();
+$kat1hasil = $kat1hasil['totalpenjualan'];
+
+//KAT2
+$kat2 = "SELECT k.kode_kategori, k.nama_kategori, SUM(jumlah_barang) 'totalpenjualan' FROM transaksi t JOIN produk p ON t.id_barang = p.kode_produk JOIN kategori k ON p.kategori_produk = k.kode_kategori WHERE k.kode_kategori = 2;";
+$kat2state = $conn->query($kat2);
+$kat2hasil = $kat2state -> fetch();
+$kat2hasil = $kat2hasil['totalpenjualan'];
+
+//KAT3
+$kat4 = "SELECT k.kode_kategori, k.nama_kategori, SUM(jumlah_barang) 'totalpenjualan' FROM transaksi t JOIN produk p ON t.id_barang = p.kode_produk JOIN kategori k ON p.kategori_produk = k.kode_kategori WHERE k.kode_kategori = 4;";
+$kat4state = $conn->query($kat4);
+$kat4hasil = $kat4state -> fetch();
+$kat4hasil = $kat4hasil['totalpenjualan'];
+
+//KAT4
+$kat7 = "SELECT k.kode_kategori, k.nama_kategori, SUM(jumlah_barang) 'totalpenjualan' FROM transaksi t JOIN produk p ON t.id_barang = p.kode_produk JOIN kategori k ON p.kategori_produk = k.kode_kategori WHERE k.kode_kategori = 7;";
+$kat7state = $conn->query($kat7);
+$kat7hasil = $kat7state -> fetch();
+$kat7hasil = $kat7hasil['totalpenjualan'];
+
+//KAT5
+$kat8 = "SELECT k.kode_kategori, k.nama_kategori, SUM(jumlah_barang) 'totalpenjualan' FROM transaksi t JOIN produk p ON t.id_barang = p.kode_produk JOIN kategori k ON p.kategori_produk = k.kode_kategori WHERE k.kode_kategori = 8;";
+$kat8state = $conn->query($kat8);
+$kat8hasil = $kat8state -> fetch();
+$kat8hasil = $kat8hasil['totalpenjualan'];
+
+//KAT6
+$kat9 = "SELECT k.kode_kategori, k.nama_kategori, SUM(jumlah_barang) 'totalpenjualan' FROM transaksi t JOIN produk p ON t.id_barang = p.kode_produk JOIN kategori k ON p.kategori_produk = k.kode_kategori WHERE k.kode_kategori = 9;";
+$kat9state = $conn->query($kat9);
+$kat9hasil = $kat9state -> fetch();
+$kat9hasil = $kat9hasil['totalpenjualan'];
+
+
+//PENJUALAN PER BULAN
+//JANUARI
+$janTotal = "SELECT sum(total_tagihan) 'tagihan' FROM `transaksi` WHERE tanggal_transaksi BETWEEN '2023-01-01' AND '2023-01-31';";
+$janTotalState = $conn->query($janTotal);
+$janTotalHasil = $janTotalState -> fetch();
+$janTotalHasil = $janTotalHasil['tagihan'];
+
+//FEBRUARU
+$febTotal = "SELECT sum(total_tagihan) 'tagihan' FROM `transaksi` WHERE tanggal_transaksi BETWEEN '2023-02-01' AND '2023-03-28';";
+$febTotalState = $conn->query($febTotal);
+$febTotalHasil = $febTotalState -> fetch();
+$febTotalHasil = $febTotalHasil['tagihan'];
+
+//MARET
+$marTotal = "SELECT sum(total_tagihan) 'tagihan' FROM `transaksi` WHERE tanggal_transaksi BETWEEN '2023-03-01' AND '2023-03-30';";
+$marTotalState = $conn->query($marTotal);
+$marTotalHasil = $marTotalState -> fetch();
+$marTotalHasil = $marTotalHasil['tagihan'];
+
+
+
+// if($hasilprodukterlaris->rowCount()>0){
+//   $barang = array();
+//   $laku = array();
+
+//   while($row = $hasilprodukterlaris->fetch()){
+//     $barang = $row["id_barang"];
+//     $laku = $row['total_penjualan'];
+//   }
+//   unset($result);
+// }else{
+//   echo "No Records matching your query were found.";
+// }
+// unset($pdo);
+
+//PRODUK 2
+$produkterlaris2 = "";
+
 
 // Get user's name
 $email = $_SESSION['email'];
@@ -44,8 +148,6 @@ $hasil = $conn->prepare($namasql);
 $hasil->execute([$email]);
 
 $nama = $hasil->fetch();
-
-
 
 $no = 1;
 
@@ -69,7 +171,7 @@ $no = 1;
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.6.15/sweetalert2.min.css">
   <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
 
-  <title>MyLaundry Dashboard</title>
+  <title>Tosche Dashboard</title>
 </head>
 
 <body>
@@ -111,7 +213,7 @@ $no = 1;
         <span class="material-symbols-outlined"> contract </span>
         <a class="menu-text">Transaksi</a>
       </li>
-      <li onclick="pindahPage('BuatLaporan.php')">
+      <li onclick="pindahPage('laporan.php')">
         <span class="material-symbols-outlined"> summarize </span>
         <a class="menu-text">Laporan</a>
       </li>
@@ -163,7 +265,7 @@ $no = 1;
 
   
 
-    <div class="values">
+    <!-- <div class="values"> -->
       <!-- <div class="val-box">
         <div class="headerpage">
           <h3>Selamat Datang, </h3>
@@ -176,7 +278,6 @@ $no = 1;
         
       </div> -->
 
-      <h3 class="i-name">Dashboard</h3>
 
     <div class="values">
       <div class="val-box">
@@ -203,18 +304,41 @@ $no = 1;
       <div class="val-box">
         <i class="fa-solid fa-user-gear"></i>
         <div>
-          <h3><?= $totalProdukTerjualAngka ?></h3>
-          <span>Total Produk Terjual</span>
+          <h3 class="fs-6"><?= $produkpalinglarisHasil?></h3>
+          <span>Terlaris</span>
         </div>
       </div>
     </div>
 
-
-      
+    
+  <div class="row">
+    <div class="col-12">
+      <div style="">
+        <canvas id="myLineChart"></canvas>
+      </div>
     </div>
+  </div>
+  <div class="row">
+    <div class="col-6">
+        <div style="%">
+            <canvas class="chartrow2" id="myChart1"></canvas>
+        </div>
+      </div>
+      <div class="col-6">
+        <div style="">
+          <canvas class="chartrow2" id="myChart2"></canvas>
+        </div>
+      </div>
+      </div>
+  </div>
+    
     
     
   </section>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.6.15/sweetalert2.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.3.0/chart.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script>
     // logout
     $(document).ready(function() {
@@ -283,11 +407,168 @@ $no = 1;
       window.location.href = namaPage;
     }
 
+    //chart
+    // const ctx = document.getElementById('myChart');
+    // const barang = ;
+    // const total = ;
+
+    // new Chart(ctx, {
+    //   type: 'bar',
+    //   data: {
+    //     labels: barang,
+    //     datasets: [{
+    //       label: '# of Sales',
+    //       data: total,
+    //       borderWidth: 1
+    //     }]
+    //   },
+    //   options: {
+    //     scales: {
+    //       y: {
+    //         beginAtZero: true
+    //       }
+    //     }
+    //   }
+    // });
+
+    // const labels = {!! json_encode($barang) !!};;
+    //                     const data = {
+    //                         labels: labels.map(label => label.substring(5)),
+    //                         datasets: [{
+    //                             label: 'Total Pendapatan',
+    //                             backgroundColor: ['blue', 'red', 'green', 'purple', 'orange', 'grey'],
+    //                             borderColor: 'rgb(255, 99, 132)',
+    //                             data: {!! json_encode($total) !!},
+    //                         }, ],
+    //                     };
+
+    //                     const config = {
+    //                         type: 'bar',
+    //                         data: data,
+    //                         options: {
+    //                             plugins: {
+    //                                 legend: {
+    //                                     display: false,
+    //                                 },
+    //                                 title: {
+    //                                     display: true,
+    //                                     text: 'Top 3 Terlaris',
+    //                                 },
+    //                             },
+    //                         },
+    //                     };
+
+    //                     var myChart = new Chart(document.getElementById('myChart'), config)
+
+  //linechart
+  const ctx = document.getElementById('myLineChart');
+    new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: ["Januari", "Februari", "Maret"],
+        datasets: [{
+          label: 'Total Pendapatan ',
+          data: [
+            <?php
+            echo $janTotalHasil
+              ?>,
+            <?php
+            echo $febTotalHasil
+              ?>,
+            <?php
+            echo $marTotalHasil
+              ?>],
+          fill: false,
+          borderColor: 'rgb(75, 192, 192)',
+          tension: 0.1
+        }]
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    });
+
+
+
+
+    //chart 1
+  const ctx1 = document.getElementById('myChart1');
+  new Chart(ctx1, {
+  type: 'bar',
+  data: {
+    labels: ['Indomie Goreng Jumbo Ayam', 'Pilot Pulpen BPT-P Hitam', 'Indomie Japanese Ramen Miso'],
+    datasets: [{
+      label: 'Jumlah Produk Terjual',
+      data: [
+        <?php echo $hasilprodukterlaris1Hasil ?>, 
+        <?php echo $hasilprodukterlaris2Hasil ?>,
+        <?php echo $hasilprodukterlaris3Hasil ?>],
+      backgroundColor: [
+      'rgba(255, 99, 132, 0.2)',
+      'rgba(255, 159, 64, 0.2)'
+    ],
+    borderColor: [
+      'rgb(255, 99, 132)',
+      'rgb(255, 159, 64)'
+    ],
+    borderWidth: 1
+    }]
+  },
+  options: {
+    scales: {
+      y: {
+        beginAtZero: true
+      }
+    }
+  }
+});
+
+  //chart2
+  const ctx2 = document.getElementById('myChart2');
+  new Chart(ctx2, {
+  type: 'bar',
+  data: {
+    labels: ['Makanan dan Minuman', 'Obat dan Suplemen', 'Alat Tulis', 'Rokok', 'Produk Kecantikan', 'Perawatan Pribadi'],
+    datasets: [{
+      label: 'Jumlah Produk Terjual',
+      data: [
+        <?php echo $kat1hasil ?>, 
+        <?php echo $kat2hasil ?>,
+        <?php echo $kat4hasil ?>,
+        <?php echo $kat7hasil ?>,
+        <?php echo $kat8hasil ?>,
+        <?php echo $kat9hasil ?>,
+      ],
+      backgroundColor: [
+      'rgba(255, 99, 132, 0.2)',
+      'rgba(255, 159, 64, 0.2)'
+    ],
+    borderColor: [
+      'rgb(255, 99, 132)',
+      'rgb(255, 159, 64)'
+    ],
+    borderWidth: 1
+    }]
+  },
+  options: {
+    scales: {
+      y: {
+        beginAtZero: true
+      }
+    }
+  }
+});
+
 
 
     // alert("Apakah bisa ");
   </script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.6.15/sweetalert2.min.js"></script>
+  
+
 </body>
 
 </html>
