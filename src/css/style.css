@@ -354,10 +354,10 @@ body {
 .values .val-box {
   background: #fff;
   /* width: 235px; */
-  margin-top : 5%;
+  width: 22%;
   height: auto;
-  width: 100%;
-  /* padding: 16px 20px; */
+  /* width: auto; */
+  padding: 16px 20px;
   border-radius: 5px;
   display: flex;
   justify-content: flex-start;
@@ -374,12 +374,6 @@ body {
   color: #fff;
   /* background: chartreuse; */
   margin-right: 15px;
-}
-.values .val-box .headerpage{
-  padding: 16px 20px;
-}
-.values .val-box #imgplace{
-  width: 100%;
 }
 
 .values .val-box:nth-child(1) i {
@@ -403,13 +397,6 @@ body {
 .values .val-box span {
   font-size: 15px;
   color: #828997;
-}
-.values .val-box img{
-  max-width : 40%;
-  float : right;
-  display: solid;
-  right: 0px;
-  justify-content: flex-end;
 }
 
 

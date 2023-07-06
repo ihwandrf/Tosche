@@ -14,6 +14,29 @@ if ($_SESSION['login'] != true) {
   exit();
 }
 
+// Get total customer 
+$jmlCustomerSql = "SELECT * FROM customer;";
+$jmlCustomerState = $conn->query($jmlCustomerSql);
+$jmlCustomerAngka = $jmlCustomerState->rowCount();
+
+// Get total pemasukan
+$totalPemasukanSql = "SELECT SUM(t.total_tagihan) 'total' FROM transaksi t GROUP BY 'total';";
+$totalPemasukanState = $conn->query($totalPemasukanSql);
+$totalPemasukanAngka = $totalPemasukanState->fetch();
+$totalPemasukanAngka = rupiah($totalPemasukanAngka['total']);
+
+// Get total transaction
+$totalTransactionSql = "SELECT * FROM transaksi";
+$totalTransactionState = $conn->query($totalTransactionSql);
+$totalTransactionAngka = $totalTransactionState->rowCount();
+
+//Get total produk terjual
+$totalProdukTerjual = "SELECT SUM(t.jumlah_barang) 'total' FROM transaksi t GROUP BY 'total';";
+$totalProdukTerjualState = $conn->query($totalProdukTerjual);
+$totalProdukTerjualAngka = $totalProdukTerjualState ->fetch();
+$totalProdukTerjualAngka = $totalProdukTerjualAngka['total'];
+
+
 // Get user's name
 $email = $_SESSION['email'];
 $namasql = "SELECT nama FROM karyawan WHERE email = ?;";
@@ -79,7 +102,7 @@ $no = 1;
           <span></span>
           <a>Karyawan</a>
         </div>
-        <div onclick="pindahPage('Admin.php')">
+        <div onclick="pindahPage('administrator.php')">
           <span></span>
           <a>Administrator</a>
         </div>
@@ -149,7 +172,7 @@ $no = 1;
   
 
     <div class="values">
-      <div class="val-box">
+      <!-- <div class="val-box">
         <div class="headerpage">
           <h3>Selamat Datang, </h3>
           
@@ -159,7 +182,40 @@ $no = 1;
         <img src="../src/img/headerpage.png" alt="">
         </div>
         
+      </div> -->
+
+      <h3 class="i-name">Dashboard</h3>
+
+    <div class="values">
+      <div class="val-box">
+        <i class="fa fa-users"></i>
+        <div>
+          <h3><?= $jmlCustomerAngka ?></h3>
+          <span>Total Customer</span>
+        </div>
       </div>
+      <div class="val-box">
+        <i class="fa-solid fa-money-check-dollar"></i>
+        <div>
+          <h3><?= $totalPemasukanAngka ?></h3>
+          <span>Pemasukan</span>
+        </div>
+      </div>
+      <div class="val-box">
+        <i class="fa-solid fa-bag-shopping"></i>
+        <div>
+          <h3><?= $totalTransactionAngka ?></h3>
+          <span>Total Transaksi</span>
+        </div>
+      </div>
+      <div class="val-box">
+        <i class="fa-solid fa-user-gear"></i>
+        <div>
+          <h3><?= $totalProdukTerjualAngka ?></h3>
+          <span>Produk Terjual</span>
+        </div>
+      </div>
+    </div>
 
 
       

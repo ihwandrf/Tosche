@@ -2,7 +2,7 @@
 session_start();
 require_once "../Config/Database.php";
 $conn = getConnection();
-$sql = "SELECT id_karyawan, karyawan.nama, karyawan.no_telepon 'no_telp', email FROM karyawan JOIN role ON(karyawan.role = role.id_role) WHERE role.id_role = 1;";
+$sql = "SELECT id_karyawan, karyawan.nama, karyawan.no_telepon 'no_telp', email FROM karyawan JOIN role ON(karyawan.role = role.id_role) WHERE role.id_role = 2;";
 $hasil = $conn->query($sql);
 
 // Get user's name
@@ -35,7 +35,7 @@ $no = 1;
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.6.15/sweetalert2.min.css">
   <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
 
-  <title>Tosche Karyawan</title>
+  <title>Tosche Admin</title>
 </head>
 
 <body>
@@ -68,12 +68,12 @@ $no = 1;
           <span></span>
           <a>Karyawan</a>
         </div>
-        <div onclick="pindahPage('administrator.php')">
+        <div onclick="pindahPage('admin.php')">
           <span></span>
           <a>Administrator</a>
         </div>
       </div>
-      <li onclick="pindahPage('Transaksi.php')" id="transaksi-li">
+      <li onclick="pindahPage('.php')" id="transaksi-li">
         <span class="material-symbols-outlined"> payments </span>
         <a class="menu-text">Pendapatan</a>
       </li>
@@ -136,9 +136,9 @@ $no = 1;
     </div>
 
     <div class="transaksi-tambah">
-      <h3 class="i-name">Karyawan</h3>
+      <h3 class="i-name">Administrator</h3>
       <button type="button" data-bs-toggle="modal" data-bs-target="#newKaryawanModal" class="btn btn-outline-primary active aksi-btn tambah-btn">
-        Tambah Karyawan
+        Tambah Admin
       </button>
     </div>
 
@@ -204,7 +204,7 @@ $no = 1;
     </div>
 
     <div class="board">
-      <p id="p-order">List Karyawan</p>
+      <p id="p-order">List Administrator</p>
       <div>
 
       </div>
@@ -368,7 +368,7 @@ $no = 1;
             }).then((result) => {
               if (result.isConfirmed) {
                 $.ajax({
-                  url: 'newKaryawan.php',
+                  url: 'newAdmin.php',
                   type: 'POST',
                   data: $(this).serialize(),
                   cache: false,

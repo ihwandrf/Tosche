@@ -5,11 +5,23 @@ require_once "../Config/Database.php";
 require_once "../Helper/functions.php";
 $conn = getConnection();
 
-$limit = 5;
+$dataperhalaman = 5;
+
+$cekdata = ("SELECT COUNT(*) FROM produk") ;
+$jumlahdata = $cekdata;
+$jumlahHalaman = ceil(intval($jumlahdata) / $dataperhalaman);
+$halamanAktif = (isset($_GET["halaman"]) ) ? $_GET["halaman"] : 1;
+$awalData = ( $dataperhalaman * $halamanAktif ) - $dataperhalaman;
+
+
+
+
+
+
 $sql = "SELECT p.kode_produk 'kode_p', p.nama_produk 'nama_p', p.gambar_produk 'gambar_p', p.harga_produk 'harga_p', k.nama_kategori 'kategori_p', p.stok 'stok_p'
 FROM produk p JOIN kategori k
 ON(p.kategori_produk = k.kode_kategori)
-ORDER BY p.stok ASC LIMIT $limit;";
+ORDER BY p.stok ASC LIMIT $dataperhalaman;";
 $hasil = $conn->query($sql);
 
 
@@ -188,12 +200,16 @@ $no = 1;
         </table>
         <nav aria-label="Page navigation example">
           <ul class="pagination justify-content-center">
-            <li class="page-item disabled">
-              <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+            <li class="page-item">
+              <a class="page-link" href="#" tabindex="-1">Previous</a>
             </li>
-            <li class="page-item"><a class="page-link" href="#">1</a></li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <?php for($i = 1; $i <= $jumlahHalaman; $i++ ) : ?>
+              <?php if( $i == $halamanAktif ) : ?>
+                <li class="page-item"><a class="page-link" href="#" aria-disabled="true"><?= $i; ?></a></li>
+              <?php else : ?>
+                <li class="page-item"><a class="page-link" href="?halaman=<?= $i; ?>"><?= $i; ?></a></li>
+              <?php endif; ?>
+            <?php endfor; ?>
             <li class="page-item">
               <a class="page-link" href="#">Next</a>
             </li>
