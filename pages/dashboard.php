@@ -1,3 +1,32 @@
+<?php
+session_start();
+
+require_once "../Config/Database.php";
+require_once "../Helper/functions.php";
+$conn = getConnection();
+
+
+// $conn = getConnection();
+
+// Cek apakah ada session login
+if ($_SESSION['login'] != true) {
+  header("Location: login.php");
+  exit();
+}
+
+// Get user's name
+$email = $_SESSION['email'];
+$namasql = "SELECT nama FROM karyawan WHERE email = ?;";
+$hasil = $conn->prepare($namasql);
+$hasil->execute([$email]);
+
+$nama = $hasil->fetch();
+
+
+
+$no = 1;
+
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -63,7 +92,7 @@
         <span class="material-symbols-outlined"> laundry </span>
         <a class="menu-text">Produk Terjual</a>
       </li>
-      <li onclick="pindahPage('Customer.php')">
+      <li onclick="pindahPage('transaksi.php')">
         <span class="material-symbols-outlined"> person </span>
         <a class="menu-text">Transaksi</a>
       </li>
@@ -74,7 +103,7 @@
     </div>
     <div id="profilediv" onclick="toggleMenu()">
       <img src="../src/img/profil_empty.png" alt="">
-      <span>Thomas Supriadi</span>
+      <span><?php echo $nama['nama'] ?></span>
     </div>
   </section>
 

@@ -10,16 +10,14 @@ require_once "../Config/Database.php";
 require_once "../Helper/functions.php";
 
 $conn = getConnection();
-$sql = "SELECT p.id_pesanan 'id_p', c.nama 'nama', p.nama_pesanan 'nama_pesanan', p.tanggal_masuk_pesanan 'tgl-masuk', p.tanggal_keluar_pesanan 'tgl-keluar', s.nama 'status', p.status_pesanan 'id_status_pesanan', sp.nama_status 'bayar', p.berat_pesanan 'berat', (p.berat_pesanan * pk.harga) 'harga', pk.kategori 'jenis_paket'
-FROM pesanan p JOIN customer c 
-ON(c.id_customer = p.id_customer)
-JOIN status_pesanan s
-ON(c.status = s.id_status_pesanan)
-JOIN paket_laundry pk
-ON(pk.id_paket = p.jenis_paket)
-JOIN status_pembayaran sp
-ON(p.status_pembayaran = sp.id_pembayaran)
-ORDER BY p.tanggal_masuk_pesanan; ";
+$sql = "SELECT t.id_transaksi 'id_transaksi', c.nama 'nama_customer', k.nama 'nama_pegawai', t.tanggal_transaksi 'tanggal_transaksi', p.nama_produk 'nama_produk', t.jumlah_barang 'jumlah_barang', t.total_tagihan 'total_tagihan'
+FROM transaksi t JOIN customer c 
+ON(t.id_customer = c.id_customer)
+JOIN karyawan k
+ON(t.id_pegawai = k.id_karyawan)
+JOIN produk p
+ON(t.id_barang = p.kode_produk)
+ORDER BY t.tanggal_transaksi; ";
 $hasil = $conn->query($sql);
 
 // Get user's name
@@ -47,29 +45,39 @@ $no = 1;
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous" />
   <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="transaksi.css" />
+  <link rel="stylesheet" href="../src/css/transaksi.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.6.15/sweetalert2.min.css">
   <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
   <title>Lihat Transaksi</title>
 </head>
 
 <body>
-  <section id="menu">
+<section id="menu">
     <div class="logo">
-      <img src="detergent.png" alt="" />
-      <h2>MyLaundry</h2>
+      <img src="../src/img/tosche.png" alt="" />
     </div>
     <div class="items">
+      <li class="nav-item mt-3">
+        <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Menu Utama</h6>
+      </li>
       <li onclick="pindahPage('dashboard.php')">
         <span class="material-icons"> pie_chart </span>
         <a class="menu-text">Dashboard</a>
       </li>
+      <li onclick="pindahPage('inventori.php')">
+        <span class="material-icons"> pie_chart </span>
+        <a class="menu-text">Inventori</a>
+      </li>
+
+      <li class="nav-item mt-3">
+        <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Laporan</h6>
+      </li>
       <li id="manajemen-li" onclick="dropManajemen()">
         <span class="material-symbols-outlined"> manage_accounts </span>
-        <a class="menu-text">Manajemen User</a>
+        <a class="menu-text">Pegawai</a>
       </li>
       <div id="manajemen">
-        <div onclick="pindahPage('LihatKaryawan.php')">
+        <div onclick="pindahPage('karyawan.php')">
           <span></span>
           <a>Karyawan</a>
         </div>
@@ -80,29 +88,33 @@ $no = 1;
       </div>
       <li onclick="pindahPage('Transaksi.php')" id="transaksi-li">
         <span class="material-symbols-outlined"> payments </span>
-        <a class="menu-text">Transaksi</a>
+        <a class="menu-text">Pendapatan</a>
       </li>
       <li onclick="pindahPage('Paket.php')">
         <span class="material-symbols-outlined"> laundry </span>
-        <a class="menu-text">Paket Laundry</a>
+        <a class="menu-text">Produk Terjual</a>
       </li>
       <li onclick="pindahPage('Customer.php')">
         <span class="material-symbols-outlined"> person </span>
-        <a class="menu-text">Customer</a>
+        <a class="menu-text">Transaksi</a>
       </li>
       <li onclick="pindahPage('BuatLaporan.php')">
         <span class="material-symbols-outlined"> summarize </span>
         <a class="menu-text">Laporan</a>
       </li>
     </div>
+    <div id="profilediv" onclick="toggleMenu()">
+      <img src="../src/img/profil_empty.png" alt="">
+      <span><?php echo $nama['nama'] ?></span>
+    </div>
   </section>
 
   <section id="interface">
-    <div class="navigation">
+  <div class="navigation">
       <div class="n1">
-        <i id="slide-bar" class="fa-solid fa-bars"></i>
+        <i id="slide-bar" class="fa-solid fa-bars" style="color: #FFFFFF;"></i>
       </div>
-      <div class="profile">
+      <!-- <div class="profile">
         <i class="fa fa-bell"> </i>
         <img src="org1.jpeg" alt="" />
         <span class="material-symbols-outlined" onclick="toggleMenu()">
@@ -133,7 +145,7 @@ $no = 1;
             <p>Logout</p>
           </a>
         </div>
-      </div>
+      </div> -->
     </div>
 
     <!-- <h3 class="i-name">Transaksi</h3> -->
@@ -169,14 +181,11 @@ $no = 1;
           <tr>
             <td>No</td>
             <td>Customer</td>
-            <td>Nama Pesanan</td>
-            <td>Tanggal Masuk</td>
-            <td>Tanggal Keluar</td>
-            <td>Status Pesanan</td>
-            <td>Status Pembayaran</td>
-            <td>Jenis Paket</td>
-            <td>Berat(kg)</td>
-            <td>Harga</td>
+            <td>Tanggal Transaksi</td>
+            <td>Nama Barang</td>
+            <td>Jumlah</td>
+            <td>Total</td>
+            <td>Kasir</td>
             <td>Aksi</td>
           </tr>
         </thead>
@@ -185,27 +194,20 @@ $no = 1;
             <tr>
               <td><?php echo $no ?></td>
               <?php $no++; ?>
-              <td><?php echo $row['nama'] ?></td>
-              <td><?php echo $row['nama_pesanan'] ?></td>
-              <td><?php echo $row['tgl-masuk'] ?></td>
-              <td><?php echo $row['tgl-keluar'] ?></td>
-              <td><?php if ($row["id_status_pesanan"] == 1) {
-                    echo "DIPROSES";
-                  } else {
-                    echo "SELESAI";
-                  } ?></td>
-              <td><?php echo $row['bayar'] ?></td>
-              <td><?php echo $row['jenis_paket'] ?></td>
-              <td><?php echo $row['berat'] ?></td>
-              <td><?php echo rupiah($row['harga']) ?></td>
+              <td><?php echo $row['nama_customer'] ?></td>
+              <td><?php echo $row['tanggal_transaksi'] ?></td>
+              <td><?php echo $row['nama_produk'] ?></td>
+              <td><?php echo $row['jumlah_barang'] ?></td>
+              <td><?php echo rupiah($row['total_tagihan']) ?></td>
+              <td><?php echo $row['nama_pegawai'] ?></td>
               <td>
-                <button type="button" class="btn btn-outline-primary active aksi-btn edit" id="<?= $row['id_p'] ?>">
+                <button type="button" class="btn btn-outline-primary active aksi-btn edit" id="<?= $row['id_transaksi'] ?>">
                   Edit
                 </button>
                 <button type="submit" form="" class="btn btn-outline-success active aksi-btn">
                   Invoice
                 </button>
-                <button type="button" class="btn btn-outline-danger active aksi-btn font-kecil hapus" id="<?= $row['id_p'] ?>">
+                <button type="button" class="btn btn-outline-danger active aksi-btn font-kecil hapus" id="<?= $row['id_transaksi'] ?>">
                   Hapus
                 </button>
               </td>

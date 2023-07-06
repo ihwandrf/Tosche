@@ -2,7 +2,7 @@
 session_start();
 require_once "../Config/Database.php";
 $conn = getConnection();
-$sql = "SELECT id_karyawan, karyawan.nama, karyawan.no_telepon 'no-telp', email FROM karyawan JOIN role ON(karyawan.role = role.id_role) WHERE role.id_role = 1;";
+$sql = "SELECT id_karyawan, karyawan.nama, karyawan.no_telepon 'no_telp', email FROM karyawan JOIN role ON(karyawan.role = role.id_role) WHERE role.id_role = 1;";
 $hasil = $conn->query($sql);
 
 // Get user's name
@@ -12,6 +12,7 @@ $hasilNama = $conn->prepare($namasql);
 $hasilNama->execute([$email]);
 
 $nama = $hasilNama->fetch();
+
 
 $no = 1;
 ?>
@@ -34,7 +35,7 @@ $no = 1;
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.6.15/sweetalert2.min.css">
   <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
 
-  <title>MyLaundry Dashboard</title>
+  <title>Tosche Karyawan</title>
 </head>
 
 <body>
@@ -90,7 +91,7 @@ $no = 1;
       </li>
     </div>
     <div id="profilediv" onclick="toggleMenu()">
-      <img src="profil_empty.png" alt="">
+      <img src="../src/img/profil_empty.png" alt="">
       <span><?php echo $nama['nama'] ?></span>
     </div>
   </section>
@@ -241,7 +242,7 @@ $no = 1;
                   $no++;  ?></td>
               <td><?php echo $row['id_karyawan'] ?></td>
               <td><?php echo $row['nama'] ?></td>
-              <td><?php echo $row['no-telp'] ?></td>
+              <td><?php echo $row['no_telp'] ?></td>
               <td><?php echo $row['email'] ?></td>
               <td>
                 <button type="button" id="<?= $row['id_karyawan'] ?>" <?php if (!$_SESSION['admin']) {
@@ -275,6 +276,122 @@ $no = 1;
   <script>
     // logout
     $(document).ready(function() {
+
+      $(document).on("click", ".edit", function() {
+        const id = $(this).attr('id');
+        console.log(id);
+        $("#display-karyawan").html("");
+        $.ajax({
+          url: "displayEditKaryawan.php",
+          type: "POST",
+          data: {
+            id: id
+          },
+          cache: false,
+          success: function(data) {
+            $("#display-karyawan").html(data);
+            $("#editKaryawanModal").modal("show");
+          }
+        })
+
+      })
+
+
+      // Hapus
+      $(document).on("click", ".hapus", function() {
+        const id = $(this).attr('id');
+        Swal.fire({
+          title: 'Apakah Anda yakin?',
+          text: "Anda tidak akan bisa mengembalikan data ini!",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Ya, hapus saja!'
+        }).then((result) => {
+          if (result.isConfirmed) {
+            $.ajax({
+              url: "deleteKaryawan.php",
+              type: 'POST',
+              data: {
+                id: id
+              },
+              success: function(data) {
+                Swal.fire(
+                  'Data terhapus!',
+                  'Data karyawan berhasil dihapus.',
+                  'success'
+                ).then(() => {
+                  window.location.reload();
+                })
+              }
+
+            })
+          }
+        })
+      })
+
+
+      // Tambah 
+      $("#newKaryawanForm").submit(function(e) {
+        e.preventDefault();
+        const nama_karyawan = $("#nama").val();
+        const email = $("#email").val();
+        const no_telp = $("#no_telp").val();
+        const password = $("#password").val();
+        const konfirmasi_password = $("#konfirmasi_password").val();
+
+
+        if (nama_karyawan == "" || email == "" || no_telp == "" || konfirmasi_password == "" || password == "") {
+          Swal.fire(
+            "Masukan Salah!",
+            "Isian data belum lengkap!",
+            "error"
+          )
+          // alert("COK")
+        } else {
+          if (password != konfirmasi_password) {
+            Swal.fire(
+              "Password salah!",
+              "Password tidak sama, mohon cek kembali!",
+              "error"
+            )
+          } else {
+            Swal.fire({
+              title: 'Apakah Anda Yakin?',
+              text: "Anda akan menambahkan karyawan baru?",
+              icon: 'warning',
+              showCancelButton: true,
+              confirmButtonColor: '#3085d6',
+              cancelButtonColor: '#d33',
+              confirmButtonText: 'Ya, tambahkan!'
+            }).then((result) => {
+              if (result.isConfirmed) {
+                $.ajax({
+                  url: 'newKaryawan.php',
+                  type: 'POST',
+                  data: $(this).serialize(),
+                  cache: false,
+                  success: function(data) {
+                    Swal.fire(
+                      "Berhasil!",
+                      "Penambahan karyawan baru berhasil!",
+                      "success"
+                    ).then(() => {
+                      window.location.reload();
+                    })
+                  }
+                })
+              }
+            })
+          }
+
+        }
+
+      })
+
+
+
       $("#logout").click(function() {
         Swal.fire({
           title: 'Apakah Anda yakin?',
@@ -343,7 +460,11 @@ $no = 1;
 
 
     // alert("Apakah bisa ");
-  </script>
+    </script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script>
+
+  <!-- SWAL -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.6.15/sweetalert2.min.js"></script>
 </body>
 

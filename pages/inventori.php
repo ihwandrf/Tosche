@@ -63,7 +63,7 @@ $no = 1;
         <a class="menu-text">Pegawai</a>
       </li>
       <div id="manajemen">
-        <div onclick="pindahPage('LihatKaryawan.php')">
+        <div onclick="pindahPage('karyawan.php')">
           <span></span>
           <a>Karyawan</a>
         </div>
@@ -141,7 +141,8 @@ $no = 1;
       </button>
     </div>
 
-    <div class="row sectioninvent board">
+    <div class="row sectioninvent board justify-content-center d-flex
+    ">
       <table width="100%">
           <thead>
             <tr>
@@ -260,9 +261,6 @@ $no = 1;
       </div>
     </div>
     <div id="display-produk"></div>
-
-    
-    
   </section>
 
   <script>

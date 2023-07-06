@@ -6,7 +6,7 @@ $conn = getConnection();
 if (isset($_REQUEST['id'])) {
     $id = $_REQUEST['id'];
 
-    $sql = "SELECT p.kode_produk 'kode_p', p.nama_produk 'nama_p', p.gambar_produk 'gambar_p', p.harga_produk 'harga_p', k.nama_kategori 'kategori_p', p.stok 'stok_p' 
+    $sql = "SELECT p.kode_produk 'kode_p', p.nama_produk 'nama_p', p.gambar_produk 'gambar_p', p.harga_produk 'harga_p', p.kategori_produk 'id_kategori', k.nama_kategori 'kategori_p', p.stok 'stok_p' 
     FROM produk p JOIN kategori k
     ON(p.kategori_produk = k.kode_kategori) WHERE kode_produk = $id";
     $hasil = $conn->query($sql);
@@ -15,7 +15,8 @@ if (isset($_REQUEST['id'])) {
 
     $kode_produk = $hasilSatu["kode_p"];
     $nama_produk = $hasilSatu["nama_p"];
-    $id_kategori = $hasilSatu["kategori_p"];
+    $id_kategori = $hasilSatu["id_kategori"];
+    $nama_kategori = $hasilSatu["kategori_p"];
     $harga = $hasilSatu["harga_p"];
     $stok = $hasilSatu["stok_p"];
     
@@ -37,23 +38,35 @@ if (isset($_REQUEST['id'])) {
                                 <select class="form-select" name="edit_no_produk" id="edit_no_produk">
                                     <?php $sqlSelectIdProduk = "SELECT kode_produk 'kode_produk' FROM produk WHERE kode_produk = $id AND nama_produk = '$nama_produk' AND harga_produk = $harga AND stok = $stok;";
                                     // AND nama_pesanan = $nama_pesanan AND 'id_pesanan' = $id AND status_pembayaran = $status_bayar AND status_pesanan = $status_pesanan;
-                                    $stateSelectIdPesanan = $conn->query($sqlSelectIdPesanan);
-                                    $row = $stateSelectIdPesanan->fetch();
+                                    $stateSelectIdProduk = $conn->query($sqlSelectIdProduk);
+                                    $row = $stateSelectIdProduk->fetch();
                                     ?>
-                                    <option value="<?= $row["id_pesanan"]  ?>" selected="selected"><?= $row["id_pesanan"] ?></option>
+                                    <option value="<?= $row["kode_produk"]  ?>" selected="selected"><?= $row["kode_produk"] ?></option>
                                     <?php  ?>
                                 </select>
                             </div>
                         </div>
                         <div class="col-sm-12">
                             <div class="form-group">
-                                <label for="">Nama Pesanan</label>
+                                <label for="">Nama Produk</label>
                                 <input name="edit_nama_produk" id="edit_nama_produk" type="text" class="form-control" value="<?= $nama_produk ?>">
                             </div>
                         </div>
                         <div class="col-sm-12">
                             <div class="form-group">
                                 <label for="">ID - Kategori Produk</label>
+                                <select class="form-select" name="edit_kategori" id="edit_kategori">
+                                    <option value="">- Masukkan Kategori -</option>
+                                    <?php $sqlSelectIdKategori = "SELECT CONCAT (k.kode_kategori, '-', k.nama_kategori) 'id_kategori' FROM kategori k;";
+                                    $stateSelectIdKategori = $conn->query($sqlSelectIdKategori);
+                                    foreach ($stateSelectIdKategori as $row) {
+                                    ?>
+                                        <option value="<?php echo $row["id_kategori"] ?>" <?php
+                                                                                        $kategoriBanding = $hasilSatu["id_kategori"] . " - " . $hasilSatu["kategori_p"];
+                                                                                        if ($row["id_kategori"] == $idKategoriBanding) {
+                                                                                            echo "selected='selected'";
+                                                                                        } ?>><?php echo $row["id_kategori"] ?> </option> <?php } ?>
+                                </select>
                             </div>
                         </div>
                         <div class="col-sm-12">

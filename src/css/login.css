@@ -1,42 +1,61 @@
 body{
-    background-color: #EFF7FF;
+    background: url('src/img/bg-login-utama.png') center no-repeat ;
     background-size:cover;
 }
+
+.bg-image-vertical {
+    position: relative;
+    overflow: hidden;
+    background-repeat: no-repeat;
+    background-position: right center;
+    background-size: auto 100%;
+    }
+    
+    @media (min-width: 1025px) {
+    .h-custom-2 {
+    height: 100%;
+    }
+    
+    }
 .error-msg{
     color: red;    
 }
-.kontentengah{
-    margin-top:5%;
-    margin-bottom: 12%;
-    background-color: #7EA6CB;
-    max-width: 90%;
-    vertical-align: middle;
+.logo{
+    
+    
+}
+.logo-phone{
+    margin-left:auto;
+    margin-right:auto;
+    margin-bottom: 68px;
+}
+.image-container{
+    background: url('../img/login.jpg') center no-repeat;
+    background-size: cover;
+    height: 90vh;
+    border-radius: 40px 40px 40px 40px;
 }
 
-.form-header{
-    background-color: #7EA6CB;
+#formlogin{
+    padding:20px;
+    background-color: #637586;
+    border-radius: 30px;
+    color: white;
 }
-.text-header{
-    margin: 3vh;
+#formlogin .forget-link{
+    color: white;
 }
+
 .form-container{
-    background-color: #7EA6CB;
     display: flex;
-    justify-content: end;
-    
-    
+    justify-content: center;
 }
-.footer-bawah{
-    background-color: #637586;
 
-}
 .form-box{
-    padding: 20px;
-    background-color: #637586;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    
+    min-height: 100vh;
 }
 
 .form-box h4{
@@ -112,3 +131,31 @@ body{
     color: #292525;
 }
 
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+    body{
+        background: url('src/img/bg-login-tablet.png') no-repeat;
+        background-size: cover;
+    }
+	.image-container2 img{
+        margin-bottom: 110px;
+        border-radius: 40px 40px 40px 40px;
+        transition: 0.3s ease;
+    }
+    .image-container{
+        display: none;
+        background: none;
+    }
+    .form-container{
+        margin: auto;
+    }
+    .d-md-block{
+        display:none;
+    }
+}
+@media only screen and (max-width: 767px) {
+    body{
+        background: url('src/img/bg-login-phone.png') no-repeat;
+        background-size: cover;
+    }
+
+}

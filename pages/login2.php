@@ -45,6 +45,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -52,7 +53,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="login.css">
+    <link rel="stylesheet" href="../src/css/login.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
@@ -65,21 +66,50 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 
 <body>
-<div class="kontentengah container-fluid px-1 px-md-5 px-lg-1 px-xl-5 py-5 mx-auto">
-    <div class="card card0 border-0">
-        <div class="row d-flex">
-            <div class="col-lg-6 form-header">
-                <div class="card1 pb-5 text-header">
-                    <h4>Halaman login karyawan</h2>
-                    <h1>Login</h6>
-                    
-                </div>
-            </div>
-            <!-- form kanan -->
-            <div class="col-lg-6 col-md-10 form-container">
-                <div class="col-lg-7 col-md-12 col-sm-9 col-xs-12 form-box">
+    <div class="container-fluid">
+        
+        <div class="row">
 
+        </div>
+
+        <!-- isi konten -->
+        <div class="row">
+            <!-- form di kiri -->
+            <div class="col-lg-6 col-md-10 form-container">
+                <div class="col-lg-6 col-md-12 col-sm-9 col-xs-12 form-box">
+                    <div class="image-container2">
+                        <img class="img-fluid d-none d-md-block d-lg-none loginimg2" src="src/img/login-tablet.png" alt="">
+                    </div>
+                    <div class="logo-phone mt-5 d-md-none d-block">
+                        <img src="src/img/logo-phone-black.png" width="88px">
+                    </div>
+                    <div class="heading mb-3 text-md-center text-center">
+                        <h4>Halaman Login Karyawan</h4>
+                        <!-- <p>
+                            Please fill your detail to access your account.
+                        </p> -->
+                        <?php
+                        if (isset($_GET['error'])) {
+                            echo '
+                            <p class="error-msg">
+                                ' . $_GET['error'] . '
+                            </p>
+                            ';
+                        } else {
+                            echo '
+                            <h1>
+                            LOGIN
+                            </h1>
+
+                            ';
+                        }
+                        ?>
+                    </div>
                     <form method="POST" action="#" id="formlogin">
+                        <!-- logo diatas -->
+        <div class="logo mt-3 mb-3 justify-content-center d-flex">
+            <img src="../src/img/tosche.png" width="130px">
+        </div>
                         <div>
                             <label for="">Email</label>
                             <div class="form-input">
@@ -121,28 +151,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     </form>
                 </div>
             </div>
+
+            <!-- gambar di kanan -->
+            <div class="image-container col-lg-5 col-md-none d-none d-lg-block" style="margin: auto;">
+            </div>
         </div>
 
-        
     </div>
-
-    
-</div>
-
-<!-- footer bawah -->
-<footer>
-        <div class="py-4 footer-bawah">
-                    <div class="row px-3">
-                        <div class="social-contact ">
-                            <span class="fa fa-facebook mr-4 text-sm"></span>
-                            <span class="fa fa-google-plus mr-4 text-sm"></span>
-                            <span class="fa fa-linkedin mr-4 text-sm"></span>
-                            <span class="fa fa-twitter mr-4 mr-sm-5 text-sm"></span>
-                        </div>
-                    </div>
-        </div>
-
-</footer>
 
 
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
