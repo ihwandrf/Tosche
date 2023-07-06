@@ -13,6 +13,9 @@ body {
   position: relative;
   display: flex;
 }
+.navlogo{
+  max-width:6%;
+}
 
 .i-name {
   color: #444a53;
@@ -163,7 +166,7 @@ body {
 }
 
 #menu .items li span {
-  color: rgb(134, 141, 151);
+  color: #FFFFFF;
   width: 30px;
   height: 20px;
   line-height: 30px;

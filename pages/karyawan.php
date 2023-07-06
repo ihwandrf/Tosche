@@ -48,11 +48,11 @@ $no = 1;
         <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Menu Utama</h6>
       </li>
       <li onclick="pindahPage('dashboard.php')">
-        <span class="material-icons"> pie_chart </span>
+        <span class="material-icons"> dashboard </span>
         <a class="menu-text">Dashboard</a>
       </li>
       <li onclick="pindahPage('inventori.php')">
-        <span class="material-icons"> pie_chart </span>
+        <span class="material-icons"> inventory_2 </span>
         <a class="menu-text">Inventori</a>
       </li>
 
@@ -60,7 +60,7 @@ $no = 1;
         <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Laporan</h6>
       </li>
       <li id="manajemen-li" onclick="dropManajemen()">
-        <span class="material-symbols-outlined"> manage_accounts </span>
+        <span class="material-symbols-outlined"> badge </span>
         <a class="menu-text">Pegawai</a>
       </li>
       <div id="manajemen">
@@ -74,18 +74,18 @@ $no = 1;
         </div>
       </div>
       <li onclick="pindahPage('Transaksi.php')" id="transaksi-li">
-        <span class="material-symbols-outlined"> payments </span>
+        <span class="material-symbols-outlined"> point_of_sale </span>
         <a class="menu-text">Pendapatan</a>
       </li>
-      <li onclick="pindahPage('terjual.php')">
-        <span class="material-symbols-outlined"> laundry </span>
+      <li onclick="pindahPage('Paket.php')">
+        <span class="material-symbols-outlined"> paid </span>
         <a class="menu-text">Produk Terjual</a>
       </li>
       <li onclick="pindahPage('transaksi.php')">
-        <span class="material-symbols-outlined"> person </span>
+        <span class="material-symbols-outlined"> contract </span>
         <a class="menu-text">Transaksi</a>
       </li>
-      <li onclick="pindahPage('laporan.php')">
+      <li onclick="pindahPage('BuatLaporan.php')">
         <span class="material-symbols-outlined"> summarize </span>
         <a class="menu-text">Laporan</a>
       </li>
@@ -95,6 +95,7 @@ $no = 1;
       <span><?php echo $nama['nama'] ?></span>
     </div>
   </section>
+
 
   <section id="interface">
     <div class="navigation">
