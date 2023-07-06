@@ -107,14 +107,6 @@ $no = 1;
           <a>Administrator</a>
         </div>
       </div>
-      <li onclick="pindahPage('Transaksi.php')" id="transaksi-li">
-        <span class="material-symbols-outlined"> point_of_sale </span>
-        <a class="menu-text">Pendapatan</a>
-      </li>
-      <li onclick="pindahPage('Paket.php')">
-        <span class="material-symbols-outlined"> paid </span>
-        <a class="menu-text">Produk Terjual</a>
-      </li>
       <li onclick="pindahPage('transaksi.php')">
         <span class="material-symbols-outlined"> contract </span>
         <a class="menu-text">Transaksi</a>
@@ -238,7 +230,7 @@ $no = 1;
         }).then((result) => {
           if (result.isConfirmed) {
             $.ajax({
-              url: "Logout.php",
+              url: "logout.php",
               type: "POST",
               success: function() {
                 Swal.fire(
@@ -246,7 +238,7 @@ $no = 1;
                   'Anda akan keluar dari halaman karyawan.',
                   'success'
                 ).then(() => {
-                  window.location.href = "login.php";
+                  window.location.href = "login2.php";
                 })
               }
             })

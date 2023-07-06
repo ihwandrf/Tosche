@@ -27,7 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $_SESSION['loginStr'] = "true";
         $_SESSION['email'] = $email;
         $_SESSION['id_karyawan'] = $row["id_karyawan"];
-        if ($row["role"] == 1) {
+        if ($row["role"] == 2) {
             $_SESSION['admin'] = true;
         } else {
             $_SESSION['admin'] = false;

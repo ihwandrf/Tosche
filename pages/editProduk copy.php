@@ -26,8 +26,8 @@ if (isset($_REQUEST['id'])) {
 <div class="modal fade" id="editProductModal">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-body">
-                <form id="editProductForm" method="post">
+        <div class="modal-body">
+                <form id="editProdukForm" method="post">
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="form-group">
@@ -83,9 +83,10 @@ if (isset($_REQUEST['id'])) {
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-dark active aksi-btn" data-bs-dismiss="modal">Close</button>
-                <button type="submit" form="editKaryawanForm" class="btn btn-success active aksi-btn">Submit</button>
+                <button form="editProdukForm" type="submit" class="btn btn-success active aksi-btn" id="edit-mase">Update</button>
             </div>
             </form>
+
         </div>
     </div>
 </div>

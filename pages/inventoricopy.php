@@ -90,6 +90,14 @@ $no = 1;
           <a>Administrator</a>
         </div>
       </div>
+      <li onclick="pindahPage('Transaksi.php')" id="transaksi-li">
+        <span class="material-symbols-outlined"> point_of_sale </span>
+        <a class="menu-text">Pendapatan</a>
+      </li>
+      <li onclick="pindahPage('Paket.php')">
+        <span class="material-symbols-outlined"> paid </span>
+        <a class="menu-text">Produk Terjual</a>
+      </li>
       <li onclick="pindahPage('transaksi.php')">
         <span class="material-symbols-outlined"> contract </span>
         <a class="menu-text">Transaksi</a>
@@ -109,7 +117,7 @@ $no = 1;
   <section id="interface">
     <div class="navigation">
       <div class="n1">
-        <i id="slide-bar" class="fa-solid fa-bars" style="color: #FFFFFF;"></i>
+        <i id="slide-bar" class="fa-solid fa-bars"></i>
       </div>
       <div class="profile">
         <i class="fa fa-bell"> </i>
@@ -121,7 +129,7 @@ $no = 1;
       <div class="sub-menu-wrap" id="subMenu">
         <div class="sub-menu">
           <div class="user-info">
-            <img src="../src/img/org1.jpeg" alt="" />
+            <img src="org1.jpeg" alt="" />
             <h2><?php echo $nama['nama'] ?></h2>
           </div>
           <hr />
@@ -145,10 +153,11 @@ $no = 1;
       </div>
     </div>
 
+    <!-- <h3 class="i-name">Transaksi</h3> -->
     <div class="transaksi-tambah">
-      <h3 class="i-name">Daftar Produk</h3>
+      <h3 class="i-name">Transaksi</h3>
       <button data-bs-toggle="modal" data-bs-target="#newUserModal" type="button" class="btn btn-outline-primary active aksi-btn tambah-btn aksi-btn">
-        Tambah Produk
+        Tambah Transaksi
       </button>
     </div>
 
@@ -215,25 +224,9 @@ $no = 1;
             </tr>
           </tbody>
       </table>
-        <nav aria-label="Page navigation example">
-          <ul class="pagination justify-content-center">
-            <li class="page-item">
-              <a class="page-link" href="#" tabindex="-1">Previous</a>
-            </li>
-            <?php for($i = 1; $i <= $jumlahHalaman; $i++ ) : ?>
-              <?php if( $i == $halamanAktif ) : ?>
-                <li class="page-item"><a class="page-link" href="#" aria-disabled="true"><?= $i; ?></a></li>
-              <?php else : ?>
-                <li class="page-item"><a class="page-link" href="?halaman=<?= $i; ?>"><?= $i; ?></a></li>
-              <?php endif; ?>
-            <?php endfor; ?>
-            <li class="page-item">
-              <a class="page-link" href="#">Next</a>
-            </li>
-          </ul>
-        </nav>
     </div>
-    
+
+    <!-- MODAL -->
     <div class="modal fade" id="newUserModal">
       <div class="modal-dialog">
         <div class="modal-content">

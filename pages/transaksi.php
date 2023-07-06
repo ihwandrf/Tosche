@@ -17,7 +17,7 @@ JOIN karyawan k
 ON(t.id_pegawai = k.id_karyawan)
 JOIN produk p
 ON(t.id_barang = p.kode_produk)
-ORDER BY t.tanggal_transaksi; ";
+ORDER BY t.tanggal_transaksi DESC; ";
 $hasil = $conn->query($sql);
 
 // Get user's name
@@ -52,7 +52,7 @@ $no = 1;
 </head>
 
 <body>
-<section id="menu">
+  <section id="menu">
     <div class="logo">
       <img src="../src/img/tosche.png" alt="" />
     </div>
@@ -61,11 +61,11 @@ $no = 1;
         <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Menu Utama</h6>
       </li>
       <li onclick="pindahPage('dashboard.php')">
-        <span class="material-icons"> pie_chart </span>
+        <span class="material-icons"> dashboard </span>
         <a class="menu-text">Dashboard</a>
       </li>
       <li onclick="pindahPage('inventori.php')">
-        <span class="material-icons"> pie_chart </span>
+        <span class="material-icons"> inventory_2 </span>
         <a class="menu-text">Inventori</a>
       </li>
 
@@ -73,7 +73,7 @@ $no = 1;
         <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Laporan</h6>
       </li>
       <li id="manajemen-li" onclick="dropManajemen()">
-        <span class="material-symbols-outlined"> manage_accounts </span>
+        <span class="material-symbols-outlined"> badge </span>
         <a class="menu-text">Pegawai</a>
       </li>
       <div id="manajemen">
@@ -81,21 +81,13 @@ $no = 1;
           <span></span>
           <a>Karyawan</a>
         </div>
-        <div onclick="pindahPage('Admin.php')">
+        <div onclick="pindahPage('administrator.php')">
           <span></span>
           <a>Administrator</a>
         </div>
       </div>
-      <li onclick="pindahPage('Transaksi.php')" id="transaksi-li">
-        <span class="material-symbols-outlined"> payments </span>
-        <a class="menu-text">Pendapatan</a>
-      </li>
-      <li onclick="pindahPage('Paket.php')">
-        <span class="material-symbols-outlined"> laundry </span>
-        <a class="menu-text">Produk Terjual</a>
-      </li>
-      <li onclick="pindahPage('Customer.php')">
-        <span class="material-symbols-outlined"> person </span>
+      <li onclick="pindahPage('transaksi.php')">
+        <span class="material-symbols-outlined"> contract </span>
         <a class="menu-text">Transaksi</a>
       </li>
       <li onclick="pindahPage('BuatLaporan.php')">
@@ -233,19 +225,13 @@ $no = 1;
                   <div class="form-group">
                     <label for="">No Order</label>
                     <select class="form-select" name="no_order" id="" disabled>
-                      <?php $sqlSelectIdPesanan = "SELECT MAX(id_pesanan) 'id_pesanan' FROM pesanan;";
+                      <?php $sqlSelectIdPesanan = "SELECT MAX(id_transaksi) 'id_transaksi' FROM transaksi;";
                       $stateSelectIdPesanan = $conn->query($sqlSelectIdPesanan);
                       foreach ($stateSelectIdPesanan as $row) {
                       ?>
-                        <option value="<?= $row["id_pesanan"] + 1 ?>"><?= $row["id_pesanan"] + 1 ?></option>
+                        <option value="<?= $row["id_transaksi"] + 1 ?>"><?= $row["id_transaksi"] + 1 ?></option>
                       <?php } ?>
                     </select>
-                  </div>
-                </div>
-                <div class="col-sm-12">
-                  <div class="form-group">
-                    <label for="">Nama Pesanan</label>
-                    <input name="judul_pesanan" id="judul_pesanan" type="text" class="form-control" placeholder="Nama Pesanan">
                   </div>
                 </div>
                 <div class="col-sm-12">
@@ -263,54 +249,46 @@ $no = 1;
                 </div>
                 <div class="col-sm-12">
                   <div class="form-group">
-                    <label for="">Status Pembayaran</label>
-                    <select class="form-select" name="status_bayar" id="status_bayar">
-                      <option value="">- Pilih Status Pembayaran -</option>
-                      <option value="2">Lunas</option>
-                      <option value="1">Belum Bayar</option>
-                    </select>
+                    <label for="">Tanggal Transaksi</label>
+                    <input class="form-control" type="date" name="tgl_transaksi" id="tgl_transaksi">
                   </div>
                 </div>
                 <div class="col-sm-12">
                   <div class="form-group">
-                    <label for="">Status Pesanan</label>
-                    <select class="form-select" name="status_pesanan" id="status_pesanan">
-                      <option value="">- Pilih Status Pesanan -</option>
-                      <option value="1">Diproses</option>
-                      <option value="2">Selesai</option>
-                    </select>
-                  </div>
-                </div>
-                <div class="col-sm-12">
-                  <div class="form-group">
-                    <label for="">Paket</label>
-                    <select class="form-select" name="jenis_paket" id="jenis_paket">
-                      <option value="">- Pilih Paket -</option>
-                      <?php $sqlSelectPaket = "SELECT kategori, id_paket FROM paket_laundry;";
-                      $stateSelectPaket = $conn->query($sqlSelectPaket);
-                      foreach ($stateSelectPaket as $row) {
+                    <label for="">ID - Nama Barang</label>
+                    <select class="form-select" name="nama_produk" id="nama_produk">
+                      <option value="">- Masukkan ID & Nama Barang -</option>
+                      <?php $sqlSelectIdProduk = "SELECT CONCAT(p.kode_produk, ' - ', p.nama_produk) 'nama_produk' FROM produk p;";
+                      $stateSelectIdProduk = $conn->query($sqlSelectIdProduk);
+                      foreach ($stateSelectIdProduk as $row) {
                       ?>
-                        <option value="<?php echo $row["id_paket"] ?>"><?php echo $row["kategori"] ?></option>
-                      <?php } ?>
+                        <option value="<?php echo $row["nama_produk"] ?>"><?php echo $row["nama_produk"] ?> </option> <?php } ?>
                     </select>
                   </div>
                 </div>
                 <div class="col-sm-12">
                   <div class="form-group">
-                    <label for="">Berat (kg)</label>
-                    <input class="form-control" type="text" name="berat" id="berat" placeholder="Berat (kg)">
+                    <label for="">Jumlah Barang</label>
+                    <input class="form-control" type="text" name="jumlah_barang" id="jumlah_barang" placeholder="Jumlah Barang">
                   </div>
                 </div>
                 <div class="col-sm-12">
                   <div class="form-group">
-                    <label for="">Tanggal Masuk</label>
-                    <input class="form-control" type="date" name="tgl_masuk" id="tgl_masuk">
+                    <label for="">Total</label>
+                    <input class="form-control" type="text" name="total_tagihan" id="total_tagihan" placeholder="Total Tagihan (Rp)">
                   </div>
                 </div>
                 <div class="col-sm-12">
                   <div class="form-group">
-                    <label for="">Tanggal Keluar</label>
-                    <input class="form-control" type="date" name="tgl_keluar" id="tgl_keluar">
+                    <label for="">ID - Nama Kasir</label>
+                    <select class="form-select" name="nama_karyawan" id="nama_karyawan">
+                      <option value="">- Masukkan ID & Nama Kasir -</option>
+                      <?php $sqlSelectIdKasir = "SELECT CONCAT(k.id_karyawan, ' - ', k.nama) 'nama_karyawan' FROM karyawan k WHERE role = 1;";
+                      $stateSelectIdKasir = $conn->query($sqlSelectIdKasir);
+                      foreach ($stateSelectIdKasir as $row) {
+                      ?>
+                        <option value="<?php echo $row["nama_karyawan"] ?>"><?php echo $row["nama_karyawan"] ?> </option> <?php } ?>
+                    </select>
                   </div>
                 </div>
               </div>
@@ -415,16 +393,14 @@ $no = 1;
 
       $("#newTransactionForm").submit(function(e) {
         e.preventDefault();
-        const judul_pesanan = $("#judul_pesanan").val();
         const id_nama = $("#id_nama option:selected").val();
-        const status_bayar = $("#status_bayar option:selected").val();
-        const status_pesanan = $("#status_pesanan option:selected").val();
-        const jenis_paket = $("#jenis_paket option:selected").val();
-        const berat = $("#berat").val();
-        const tgl_masuk = $("#tgl_masuk").val();
-        const tgl_keluar = $("#tgl_keluar").val();
+        const tgl_transaksi = $("#tgl_transaksi").val();
+        const nama_produk = $("#nama_produk option:selected").val();
+        const jumlah_produk = $("#jumlah_barang").val();
+        const total_tagihan = $("#total_tagihan").val();
+        const kasir = $("#nama_karyawan option:selected").val();
 
-        if (judul_pesanan == "" || id_nama == "" || status_bayar == "" || status_pesanan == "" || jenis_paket == "" || berat == "" || tgl_masuk == "" || tgl_keluar == "") {
+        if (id_nama == "" || tgl_transaksi == "" || nama_produk == "" || jumlah_produk == "" || total_tagihan == "" || kasir == "") {
           Swal.fire(
             "Masukan Salah!",
             "Isian data belum lengkap!",

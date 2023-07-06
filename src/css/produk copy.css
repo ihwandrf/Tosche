@@ -13,9 +13,6 @@ body {
   position: relative;
   display: flex;
 }
-.navlogo{
-  max-width:6%;
-}
 
 .i-name {
   color: #444a53;
@@ -25,6 +22,14 @@ body {
   /* margin-top: 70px; */
 }
 
+.img_produk{
+    max-width: 20%;
+    max-height: 20%;
+    margin: auto;
+    padding-right: 0px;
+    
+
+}
 
 .transaksi-tambah {
   width: 94%;
@@ -161,8 +166,8 @@ body {
   position: relative;
 }
 
-#menu .items li:nth-child(2) {
-  border-left: 4px solid #fff;
+#menu .items li:nth-child(1) {
+  /* border-left: 4px solid #fff; */
 }
 
 #menu .items li span {
@@ -357,10 +362,10 @@ body {
 .values .val-box {
   background: #fff;
   /* width: 235px; */
-  width: 22%;
+  margin-top : 5%;
   height: auto;
-  /* width: auto; */
-  padding: 16px 20px;
+  width: 100%;
+  /* padding: 16px 20px; */
   border-radius: 5px;
   display: flex;
   justify-content: flex-start;
@@ -377,6 +382,12 @@ body {
   color: #fff;
   /* background: chartreuse; */
   margin-right: 15px;
+}
+.values .val-box .headerpage{
+  padding: 16px 20px;
+}
+.values .val-box #imgplace{
+  width: 100%;
 }
 
 .values .val-box:nth-child(1) i {
@@ -400,6 +411,13 @@ body {
 .values .val-box span {
   font-size: 15px;
   color: #828997;
+}
+.values .val-box img{
+  max-width : 40%;
+  float : right;
+  display: solid;
+  right: 0px;
+  justify-content: flex-end;
 }
 
 

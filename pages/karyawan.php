@@ -30,7 +30,7 @@ $no = 1;
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous" />
   <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="../src/css/style.css" />
+  <link rel="stylesheet" href="../src/css/karyawan.css" />
   <!-- <link rel="stylesheet" href="karyawan.css"/> -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.6.15/sweetalert2.min.css">
   <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
@@ -73,14 +73,6 @@ $no = 1;
           <a>Administrator</a>
         </div>
       </div>
-      <li onclick="pindahPage('Transaksi.php')" id="transaksi-li">
-        <span class="material-symbols-outlined"> point_of_sale </span>
-        <a class="menu-text">Pendapatan</a>
-      </li>
-      <li onclick="pindahPage('Paket.php')">
-        <span class="material-symbols-outlined"> paid </span>
-        <a class="menu-text">Produk Terjual</a>
-      </li>
       <li onclick="pindahPage('transaksi.php')">
         <span class="material-symbols-outlined"> contract </span>
         <a class="menu-text">Transaksi</a>
@@ -283,7 +275,7 @@ $no = 1;
         console.log(id);
         $("#display-karyawan").html("");
         $.ajax({
-          url: "displayEditKaryawan.php",
+          url: "editKaryawan.php",
           type: "POST",
           data: {
             id: id
