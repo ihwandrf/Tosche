@@ -6,7 +6,7 @@ $conn = getConnection();
 if (isset($_REQUEST['id'])) {
     $id = $_REQUEST['id'];
 
-    $sql = "SELECT t.id_transaksi 'id_transaksi', c.nama 'nama_customer', k.nama 'nama_pegawai', t.id_barang 'id_barang', t.tanggal_transaksi 'tanggal_transaksi', p.nama_produk 'nama_produk', t.jumlah_barang 'jumlah_barang', t.total_tagihan 'total_tagihan'
+    $sql = "SELECT t.id_transaksi 'id_transaksi', t.id_customer 'id_customer', c.nama 'nama_customer', k.nama 'nama_pegawai', t.id_barang 'id_barang', t.tanggal_transaksi 'tanggal_transaksi', p.nama_produk 'nama_p', t.jumlah_barang 'jumlah_barang', t.total_tagihan 'total_tagihan'
     FROM transaksi t JOIN customer c 
     ON(t.id_customer = c.id_customer)
     JOIN karyawan k
@@ -43,7 +43,7 @@ if (isset($_REQUEST['id'])) {
                             <div class="form-group">
                                 <label for="">No Order</label>
                                 <select class="form-select" name="edit_no_order" id="edit_no_order">
-                                    <?php $sqlSelectIdTransaksi = "SELECT id_transaksi 'id_transaksi' FROM transaksi WHERE id_customer = $id_customer AND id_transaksi = $id;";
+                                    <?php $sqlSelectIdTransaksi = "SELECT t.id_transaksi 'id_transaksi' FROM transaksi t WHERE t.id_transaksi = $id;";
                                     $stateSelectIdTransaksi = $conn->query($sqlSelectIdTransaksi);
                                     $row = $stateSelectIdTransaksi->fetch();
                                     ?>
@@ -62,7 +62,7 @@ if (isset($_REQUEST['id'])) {
                                     foreach ($stateSelectIdNama as $row) {
                                     ?>
                                         <option value="<?php echo $row["id_nama"] ?>" <?php
-                                                                                        $idNamaBanding = $hasilSatu["id_customer"] . " - " . $hasilSatu["nama"];
+                                                                                        $idNamaBanding = $hasilSatu["id_customer"] . " - " . $hasilSatu["nama_customer"];
                                                                                         if ($row["id_nama"] == $idNamaBanding) {
                                                                                             echo "selected='selected'";
                                                                                         } ?>><?php echo $row["id_nama"] ?> </option> <?php } ?>
@@ -71,7 +71,7 @@ if (isset($_REQUEST['id'])) {
                         </div>
                         <div class="col-sm-12">
                             <div class="form-group">
-                                <label for="">Tamggal Transaksi</label>
+                                <label for="">Tanggal Transaksi</label>
                                 <input class="form-control" type="date" name="edit_tanggal" id="edit_tanggal" placeholder="Tanggal Transaksi" value="<?= $tgl_transaksi_html?>">
                             </div>
                         </div>
@@ -84,11 +84,11 @@ if (isset($_REQUEST['id'])) {
                                     $stateSelectIdBarang = $conn->query($sqlSelectIdBarang);
                                     foreach ($stateSelectIdBarang as $row) {
                                     ?>
-                                        <option value="<?php echo $row["nama_produk"] ?>" <?php
-                                                                                        $idProdukBanding = $hasilSatu["id_barang"] . " - " . $hasilSatu["nama_produk"];
-                                                                                        if ($row["nama_produk"] == $idNamaBanding) {
+                                        <option value="<?php echo $row["id_nama"] ?>" <?php
+                                                                                        $idProdukBanding = $hasilSatu["id_barang"] . " - " . $hasilSatu["nama_p"];
+                                                                                        if ($row["id_nama"] == $idProdukBanding) {
                                                                                             echo "selected='selected'";
-                                                                                        } ?>><?php echo $row["nama_produk"] ?> </option> <?php } ?>
+                                                                                        } ?>><?php echo $row["id_nama"] ?> </option> <?php } ?>
                                 </select>
                             </div>
                         </div>

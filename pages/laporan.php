@@ -24,7 +24,7 @@ $hasilprodukterlaris1Hasil = $hasilprodukterlaris1 -> fetch();
 $hasilprodukterlaris1Hasil = $hasilprodukterlaris1Hasil['total_penjualan'];
 
 //PRODUK 2
-$produkterlaris2 = "SELECT SUM(jumlah_barang) 'total_penjualan' FROM transaksi WHERE id_barang = 1;";
+$produkterlaris2 = "SELECT SUM(jumlah_barang) 'total_penjualan' FROM transaksi WHERE id_barang = 2;";
 $hasilprodukterlaris2 = $conn->query($produkterlaris2);
 $hasilprodukterlaris2Hasil = $hasilprodukterlaris2 -> fetch();
 $hasilprodukterlaris2Hasil = $hasilprodukterlaris2Hasil['total_penjualan'];
@@ -355,7 +355,7 @@ $no = 1;
   new Chart(ctx1, {
   type: 'bar',
   data: {
-    labels: ['Indomie Goreng Jumbo Ayam', 'Pilot Pulpen BPT-P Hitam', 'Indomie Japanese Ramen Miso'],
+    labels: ['Indomie Goreng Jumbo Ayam', 'Indomie Goreng 70g', 'Indomie Japanese Ramen Miso'],
     datasets: [{
       label: 'Jumlah Produk Terjual',
       data: [

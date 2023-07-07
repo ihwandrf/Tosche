@@ -42,6 +42,13 @@ $produkpalinglarisState = $conn->query($produkpalinglaris);
 $produkpalinglarisHasil = $produkpalinglarisState ->fetch();
 $produkpalinglarisHasil = $produkpalinglarisHasil['namaproduk'];
 
+
+//Get Stok Terendah
+$stokTerendah = "SELECT nama_produk FROM produk ORDER BY stok ASC LIMIT 1";
+$stokTerendahState = $conn->query($stokTerendah);
+$stokTerendahHasil = $stokTerendahState ->fetch();
+$stokTerendahHasil = $stokTerendahHasil['nama_produk'];
+
 //CHART
 //TOP 3 PRODUK TERLARIS
 
@@ -218,10 +225,10 @@ $no = 1;
         <a class="menu-text">Laporan</a>
       </li>
     </div>
-    <div id="profilediv" onclick="toggleMenu()">
+    <!-- <div id="profilediv" onclick="toggleMenu()">
       <img src="../src/img/profil_empty.png" alt="">
       <span><?php echo $nama['nama'] ?></span>
-    </div>
+    </div> -->
   </section>
 
   <section id="interface">
@@ -231,7 +238,7 @@ $no = 1;
       </div>
       <div class="profile">
         <i class="fa fa-bell"> </i>
-        <img src="org1.jpeg" alt="" />
+        <img src="../src/img/profil_empty.png" alt="" />
         <span class="material-symbols-outlined" onclick="toggleMenu()">
           expand_more
         </span>
@@ -239,7 +246,7 @@ $no = 1;
       <div class="sub-menu-wrap" id="subMenu">
         <div class="sub-menu">
           <div class="user-info">
-            <img src="../src/img/org1.jpeg" alt="" />
+            <img src="../src/img/profil_empty.png" alt="" />
             <h2><?php echo $nama['nama'] ?></h2>
           </div>
           <hr />
@@ -278,7 +285,7 @@ $no = 1;
         
       </div> -->
 
-
+    
     <div class="values">
       <div class="val-box">
         <i class="fa fa-users"></i>
@@ -297,12 +304,12 @@ $no = 1;
       <div class="val-box">
         <i class="fa-solid fa-bag-shopping"></i>
         <div>
-          <h3><?= $totalTransactionAngka ?></h3>
-          <span>Total Transaksi</span>
+          <h3><?= $stokTerendahHasil ?></h3>
+          <span>Stok Terendah</span>
         </div>
       </div>
       <div class="val-box">
-        <i class="fa-solid fa-user-gear"></i>
+        <i class="fa-solid fa-money-check"></i>
         <div>
           <h3 class="fs-6"><?= $produkpalinglarisHasil?></h3>
           <span>Terlaris</span>
@@ -318,7 +325,7 @@ $no = 1;
       </div>
     </div>
   </div>
-  <div class="row">
+  <!-- <div class="row">
     <div class="col-6">
         <div style="%">
             <canvas class="chartrow2" id="myChart1"></canvas>
@@ -330,7 +337,7 @@ $no = 1;
         </div>
       </div>
       </div>
-  </div>
+  </div> -->
     
     
     

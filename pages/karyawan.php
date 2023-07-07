@@ -82,10 +82,10 @@ $no = 1;
         <a class="menu-text">Laporan</a>
       </li>
     </div>
-    <div id="profilediv" onclick="toggleMenu()">
+    <!-- <div id="profilediv" onclick="toggleMenu()">
       <img src="../src/img/profil_empty.png" alt="">
       <span><?php echo $nama['nama'] ?></span>
-    </div>
+    </div> -->
   </section>
 
 
@@ -94,9 +94,9 @@ $no = 1;
       <div class="n1">
         <i id="slide-bar" class="fa-solid fa-bars" style="color: #FFFFFF;"></i>
       </div>
-      <!-- <div class="profile">
+      <div class="profile">
         <i class="fa fa-bell"> </i>
-        <img src="org1.jpeg" alt="" />
+        <img src="../src/img/profil_empty.png" alt="">
         <span class="material-symbols-outlined" onclick="toggleMenu()">
           expand_more
         </span>
@@ -104,7 +104,7 @@ $no = 1;
       <div class="sub-menu-wrap" id="subMenu">
         <div class="sub-menu">
           <div class="user-info">
-            <img src="org1.jpeg" alt="" />
+            <img src="../src/img/profil_empty.png" alt="">
             <h2><?php echo $nama['nama'] ?></h2>
           </div>
           <hr />
@@ -125,7 +125,7 @@ $no = 1;
             <p>Logout</p>
           </a>
         </div>
-      </div> -->
+      </div>
     </div>
 
     <div class="transaksi-tambah">

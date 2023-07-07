@@ -73,51 +73,52 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <!-- Background image for card set in CSS! -->
           </div>
           <div class="card-body p-4 p-sm-5">
-            <h5 class="card-title text-center mb-5 fw-light fs-5">Login</h5>
-            <form method="POST" action="#" id="formlogin">
-                        <!-- logo diatas -->
-        <div class="logo mt-3 mb-3 justify-content-center d-flex">
-            <img src="../src/img/tosche.png" width="130px">
-        </div>
-                        <div>
-                            <label for="">Email</label>
-                            <div class="form-input">
-                                <span onclick="clearField()"><i class="fa fa-times-circle-o"></i></i></span>
-                                <input autocomplete="off" type="email" id="email" name="email" placeholder="Email Address">
-                            </div>
-                        </div>
+            <h5 class="card-title text-center mb-5 fw-light fs-5">Register</h5>
+            <form>
 
-                        <div>
-                            <label for="">Password</label>
-                            <div class="form-input">
-                                <span><i onclick="changeIcon(this)" class="fa fa-eye"></i></span>
-                                <input autocomplete="off" type="password" id="password" name="password" placeholder="Password">
-                            </div>
-                        </div>
+              <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="floatingInputUsername" placeholder="myusername" required autofocus>
+                <label for="floatingInputUsername">Username</label>
+              </div>
 
-                        <div class="row mb-3">
-                            <div class="col-6 d-flex">
-                                <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="custom-control-input" id="cb1">
-                                    <label class="custom-control-label" for="cb1">Remember me</label>
-                                </div>
-                            </div>
+              <div class="form-floating mb-3">
+                <input type="email" class="form-control" id="floatingInputEmail" placeholder="name@example.com">
+                <label for="floatingInputEmail">Email address</label>
+              </div>
 
-                            <div class="col-6 text-end">
-                                <a href="TidakAda.html" class="forget-link">Forget password?</a>
-                            </div>
-                        </div>
+              <hr>
 
+              <div class="form-floating mb-3">
+                <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
+                <label for="floatingPassword">Password</label>
+              </div>
 
-                        <script>
-                            // alert()
-                        </script>
-                        <div class="text-center mb-3">
-                            <button id="sign-in-btn" type="submit" name="submit" class="btn" login="<?php if (isset($_SESSION['loginStr'])) {
-                                                                                                        echo $_SESSION['loginStr'];
-                                                                                                    } ?>">Sign In</button>
-                        </div>
-                    </form>
+              <div class="form-floating mb-3">
+                <input type="password" class="form-control" id="floatingPasswordConfirm" placeholder="Confirm Password">
+                <label for="floatingPasswordConfirm">Confirm Password</label>
+              </div>
+
+              <div class="d-grid mb-2">
+                <button class="btn btn-lg btn-primary btn-login fw-bold text-uppercase" type="submit">Register</button>
+              </div>
+
+              <a class="d-block text-center mt-2 small" href="#">Have an account? Sign In</a>
+
+              <hr class="my-4">
+
+              <div class="d-grid mb-2">
+                <button class="btn btn-lg btn-google btn-login fw-bold text-uppercase" type="submit">
+                  <i class="fab fa-google me-2"></i> Sign up with Google
+                </button>
+              </div>
+
+              <div class="d-grid">
+                <button class="btn btn-lg btn-facebook btn-login fw-bold text-uppercase" type="submit">
+                  <i class="fab fa-facebook-f me-2"></i> Sign up with Facebook
+                </button>
+              </div>
+
+            </form>
           </div>
         </div>
       </div>
